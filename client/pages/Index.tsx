@@ -120,7 +120,7 @@ export default function Index() {
               </div>
             </div>
             <a
-              href="https://github.com/"
+              href="https://github.com/Anurag07-cool"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 text-muted-foreground hover:text-foreground transition-colors"
