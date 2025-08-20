@@ -124,20 +124,6 @@ export default function Index() {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          {/* Hero Section */}
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-foreground mb-4">
-              AI-Powered Health Image Classification
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Upload medical images for instant AI analysis. Our advanced machine learning model 
-              helps detect potential health conditions with high accuracy.
-            </p>
-            <div className="flex items-center justify-center gap-2 mt-6">
-              <Shield className="w-5 h-5 text-green-600" />
-              <span className="text-sm text-muted-foreground">HIPAA Compliant • Secure • Confidential</span>
-            </div>
-          </div>
 
           {/* Upload Section */}
           <Card className="mb-8">
