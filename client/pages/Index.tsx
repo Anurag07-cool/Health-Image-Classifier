@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Upload, X, Brain, Shield, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Upload, X, Brain, Shield, AlertCircle, CheckCircle2, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
