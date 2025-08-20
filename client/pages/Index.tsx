@@ -109,14 +109,24 @@ export default function Index() {
       {/* Header */}
       <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary/10 rounded-lg">
-              <Brain className="w-6 h-6 text-primary" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Brain className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-foreground">HealthVision AI</h1>
+                <p className="text-sm text-muted-foreground">Advanced Medical Image Analysis</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-foreground">HealthVision AI</h1>
-              <p className="text-sm text-muted-foreground">Advanced Medical Image Analysis</p>
-            </div>
+            <a
+              href="https://github.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Github className="w-6 h-6" />
+            </a>
           </div>
         </div>
       </header>
