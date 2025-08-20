@@ -1,5 +1,13 @@
 import { useState, useCallback } from "react";
-import { Upload, X, Brain, Shield, AlertCircle, CheckCircle2, Github } from "lucide-react";
+import {
+  Upload,
+  X,
+  Brain,
+  Shield,
+  AlertCircle,
+  CheckCircle2,
+  Github,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -21,7 +29,7 @@ export default function Index() {
   const handleImageSelect = useCallback((file: File) => {
     setSelectedImage(file);
     setPrediction(null);
-    
+
     const reader = new FileReader();
     reader.onload = (e) => {
       setImagePreview(e.target?.result as string);
@@ -29,15 +37,18 @@ export default function Index() {
     reader.readAsDataURL(file);
   }, []);
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    
-    const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith('image/')) {
-      handleImageSelect(file);
-    }
-  }, [handleImageSelect]);
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragOver(false);
+
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith("image/")) {
+        handleImageSelect(file);
+      }
+    },
+    [handleImageSelect],
+  );
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -53,11 +64,11 @@ export default function Index() {
 
     try {
       const formData = new FormData();
-      formData.append('image', selectedImage);
+      formData.append("image", selectedImage);
 
-      const response = await fetch('/api/classify', {
-        method: 'POST',
-        body: formData
+      const response = await fetch("/api/classify", {
+        method: "POST",
+        body: formData,
       });
 
       if (!response.ok) {
@@ -67,13 +78,14 @@ export default function Index() {
       const result = await response.json();
       setPrediction(result);
     } catch (error) {
-      console.error('Error analyzing image:', error);
+      console.error("Error analyzing image:", error);
       // Fallback to mock data on error
       setPrediction({
         condition: "Analysis Error",
         confidence: 0,
         severity: "medium",
-        description: "Unable to analyze image. Please try again or contact support if the problem persists."
+        description:
+          "Unable to analyze image. Please try again or contact support if the problem persists.",
       });
     } finally {
       setIsAnalyzing(false);
@@ -88,19 +100,27 @@ export default function Index() {
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case "low": return "bg-green-100 text-green-800 border-green-200";
-      case "medium": return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "high": return "bg-red-100 text-red-800 border-red-200";
-      default: return "bg-gray-100 text-gray-800 border-gray-200";
+      case "low":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "medium":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "high":
+        return "bg-red-100 text-red-800 border-red-200";
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getSeverityIcon = (severity: string) => {
     switch (severity) {
-      case "low": return <CheckCircle2 className="w-4 h-4" />;
-      case "medium": return <AlertCircle className="w-4 h-4" />;
-      case "high": return <AlertCircle className="w-4 h-4" />;
-      default: return <AlertCircle className="w-4 h-4" />;
+      case "low":
+        return <CheckCircle2 className="w-4 h-4" />;
+      case "medium":
+        return <AlertCircle className="w-4 h-4" />;
+      case "high":
+        return <AlertCircle className="w-4 h-4" />;
+      default:
+        return <AlertCircle className="w-4 h-4" />;
     }
   };
 
@@ -115,8 +135,12 @@ export default function Index() {
                 <Brain className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-foreground">HealthVision AI</h1>
-                <p className="text-sm text-muted-foreground">Advanced Medical Image Analysis</p>
+                <h1 className="text-xl font-bold text-foreground">
+                  HealthVision AI
+                </h1>
+                <p className="text-sm text-muted-foreground">
+                  Advanced Medical Image Analysis
+                </p>
               </div>
             </div>
             <a
@@ -134,15 +158,14 @@ export default function Index() {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-
           {/* Upload Section */}
           <Card className="mb-8">
             <CardContent className="p-8">
               {!imagePreview ? (
                 <div
                   className={`border-2 border-dashed rounded-lg p-12 text-center transition-all ${
-                    isDragOver 
-                      ? "border-primary bg-primary/5" 
+                    isDragOver
+                      ? "border-primary bg-primary/5"
                       : "border-gray-300 hover:border-primary/50"
                   }`}
                   onDrop={handleDrop}
@@ -195,7 +218,7 @@ export default function Index() {
 
                   {/* Action Buttons */}
                   <div className="flex justify-center gap-4">
-                    <Button 
+                    <Button
                       onClick={analyzeImage}
                       disabled={isAnalyzing}
                       className="min-w-[150px]"
@@ -229,7 +252,7 @@ export default function Index() {
                   <Brain className="w-5 h-5" />
                   Analysis Results
                 </h3>
-                
+
                 <div className="space-y-6">
                   {/* Main Prediction */}
                   <div className="p-6 border rounded-lg bg-card">
@@ -237,23 +260,29 @@ export default function Index() {
                       <h4 className="text-lg font-semibold text-foreground">
                         Detected Condition
                       </h4>
-                      <Badge className={`${getSeverityColor(prediction.severity)} flex items-center gap-1`}>
+                      <Badge
+                        className={`${getSeverityColor(prediction.severity)} flex items-center gap-1`}
+                      >
                         {getSeverityIcon(prediction.severity)}
-                        {prediction.severity.charAt(0).toUpperCase() + prediction.severity.slice(1)} Risk
+                        {prediction.severity.charAt(0).toUpperCase() +
+                          prediction.severity.slice(1)}{" "}
+                        Risk
                       </Badge>
                     </div>
-                    
+
                     <div className="space-y-3">
                       <div>
                         <span className="text-2xl font-bold text-foreground">
                           {prediction.condition}
                         </span>
                       </div>
-                      
+
                       <div className="flex items-center gap-2">
-                        <span className="text-sm text-muted-foreground">Confidence:</span>
+                        <span className="text-sm text-muted-foreground">
+                          Confidence:
+                        </span>
                         <div className="flex-1 bg-gray-200 rounded-full h-2 max-w-xs">
-                          <div 
+                          <div
                             className="bg-primary h-2 rounded-full transition-all duration-500"
                             style={{ width: `${prediction.confidence * 100}%` }}
                           />
@@ -262,7 +291,7 @@ export default function Index() {
                           {(prediction.confidence * 100).toFixed(1)}%
                         </span>
                       </div>
-                      
+
                       <p className="text-muted-foreground mt-4">
                         {prediction.description}
                       </p>
@@ -274,11 +303,14 @@ export default function Index() {
                     <div className="flex items-start gap-2">
                       <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
                       <div className="text-sm">
-                        <p className="font-medium text-amber-800 mb-1">Medical Disclaimer</p>
+                        <p className="font-medium text-amber-800 mb-1">
+                          Medical Disclaimer
+                        </p>
                         <p className="text-amber-700">
-                          This AI analysis is for informational purposes only and should not replace 
-                          professional medical advice. Please consult with a qualified healthcare 
-                          provider for proper diagnosis and treatment.
+                          This AI analysis is for informational purposes only
+                          and should not replace professional medical advice.
+                          Please consult with a qualified healthcare provider
+                          for proper diagnosis and treatment.
                         </p>
                       </div>
                     </div>
@@ -295,33 +327,42 @@ export default function Index() {
                 <div className="p-3 bg-blue-100 rounded-full w-fit mx-auto mb-4">
                   <Brain className="w-6 h-6 text-blue-600" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-2">Advanced AI</h3>
+                <h3 className="font-semibold text-foreground mb-2">
+                  Advanced AI
+                </h3>
                 <p className="text-sm text-muted-foreground">
-                  Powered by state-of-the-art deep learning models trained on extensive medical datasets
+                  Powered by state-of-the-art deep learning models trained on
+                  extensive medical datasets
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardContent className="p-6 text-center">
                 <div className="p-3 bg-green-100 rounded-full w-fit mx-auto mb-4">
                   <Shield className="w-6 h-6 text-green-600" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-2">Secure & Private</h3>
+                <h3 className="font-semibold text-foreground mb-2">
+                  Secure & Private
+                </h3>
                 <p className="text-sm text-muted-foreground">
-                  Your medical images are processed securely and never stored permanently
+                  Your medical images are processed securely and never stored
+                  permanently
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardContent className="p-6 text-center">
                 <div className="p-3 bg-purple-100 rounded-full w-fit mx-auto mb-4">
                   <AlertCircle className="w-6 h-6 text-purple-600" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-2">Instant Results</h3>
+                <h3 className="font-semibold text-foreground mb-2">
+                  Instant Results
+                </h3>
                 <p className="text-sm text-muted-foreground">
-                  Get preliminary analysis results in seconds to help guide your healthcare decisions
+                  Get preliminary analysis results in seconds to help guide your
+                  healthcare decisions
                 </p>
               </CardContent>
             </Card>
