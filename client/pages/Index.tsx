@@ -48,20 +48,36 @@ export default function Index() {
 
   const analyzeImage = async () => {
     if (!selectedImage) return;
-    
+
     setIsAnalyzing(true);
-    
-    // Simulate API call to Flask backend
-    setTimeout(() => {
-      // Mock prediction result
-      setPrediction({
-        condition: "Melanoma",
-        confidence: 0.87,
-        severity: "high",
-        description: "Detected suspicious pigmented lesion. Recommend immediate dermatological consultation for further evaluation."
+
+    try {
+      const formData = new FormData();
+      formData.append('image', selectedImage);
+
+      const response = await fetch('/api/classify', {
+        method: 'POST',
+        body: formData
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      setPrediction(result);
+    } catch (error) {
+      console.error('Error analyzing image:', error);
+      // Fallback to mock data on error
+      setPrediction({
+        condition: "Analysis Error",
+        confidence: 0,
+        severity: "medium",
+        description: "Unable to analyze image. Please try again or contact support if the problem persists."
+      });
+    } finally {
       setIsAnalyzing(false);
-    }, 3000);
+    }
   };
 
   const clearImage = () => {
